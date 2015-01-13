@@ -53,8 +53,7 @@ public class Quarter extends AbstractQuarter {
 		this.child = child;
 		this.child.setParent(this);
 		ForgeFactionData.getData().markDirty();
-		if(child.getChunk().isChunkLoaded)
-			ForgeFactionData.getData().getIndex().add(child);
+		ForgeFactionData.getData().getIndex().add(child);
 	}
 
 	@Override

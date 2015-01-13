@@ -21,16 +21,14 @@ public class ChunkEventHandler implements IEvent {
 			ForgeFactionData data = ForgeFactionData.getData();
 			for(Faction faction : data.getFactions().getFactions()) {
 				for(HeadQuarter hq : faction.getHeadquarters()) {
-					if(event.world == hq.getChunk().worldObj) {
-						if(event.getChunk() == hq.getChunk()) {
-							data.getIndex().add(hq);
+					if(hq.contains(event.getChunk())) {
+						data.getIndex().add(hq, event.getChunk());
+						return;
+					}
+					for(Quarter quarter : hq.getQuarters()) {
+						if(quarter.contains(event.getChunk())) {
+							data.getIndex().add(quarter, event.getChunk());
 							return;
-						}
-						for(Quarter quarter : hq.getQuarters()) {
-							if(event.getChunk() == quarter.getChunk()) {
-								data.getIndex().add(quarter);
-								return;
-							}
 						}
 					}
 				}

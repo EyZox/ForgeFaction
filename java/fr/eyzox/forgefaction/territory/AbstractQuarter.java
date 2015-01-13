@@ -1,5 +1,7 @@
 package fr.eyzox.forgefaction.territory;
 
+import java.util.Iterator;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -86,7 +88,7 @@ public abstract class AbstractQuarter {
 	}
 	
 	public void onUnclaims() {
-		if(this.getChunk().isChunkLoaded) ForgeFactionData.getData().getIndex().remove(this.getChunk());
+		ForgeFactionData.getData().getIndex().remove(this);
 	}
 	
 	public boolean isAdjacent(AbstractQuarter quarter) {
@@ -102,6 +104,42 @@ public abstract class AbstractQuarter {
 			}
 		}
 		return adjacent;
+	}
+	
+	public Iterator<Chunk> getChunkIterator() {
+		return new Iterator<Chunk>() {
+			int x = chunk.xPosition, z = chunk.zPosition;
+			@Override
+			public boolean hasNext() {
+				return z < chunk.zPosition+getSize() && x<chunk.xPosition+getSize();
+			}
+
+			@Override
+			public Chunk next() {
+				Chunk c = chunk.worldObj.getChunkFromChunkCoords(x, z);
+				x++;
+				if(x >= chunk.xPosition+getSize()) {
+					x = chunk.xPosition;
+					z++;
+				}
+				return c;
+			}
+
+			@Override
+			public void remove() {
+				new IllegalAccessError("READ-ONLY iterator").printStackTrace();
+			}
+		};
+	}
+	
+	public Iterable<Chunk> getAllChunks() {
+		return new Iterable<Chunk>() {
+
+			@Override
+			public Iterator<Chunk> iterator() {
+				return getChunkIterator();
+			}
+		};
 	}
 	
 }

@@ -83,8 +83,7 @@ public class HeadQuarter extends AbstractQuarter {
 		
 		quarters.add(quarter);
 		ForgeFactionData.getData().markDirty();
-		if(quarter.getChunk().isChunkLoaded)
-			ForgeFactionData.getData().getIndex().add(quarter);
+		ForgeFactionData.getData().getIndex().add(quarter);
 	}
 	
 	public void unclaims(Quarter quarter) {

@@ -3,6 +3,7 @@ package fr.eyzox.forgefaction.team;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -11,14 +12,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.chunk.Chunk;
 import fr.eyzox.forgefaction.ForgeFactionData;
+import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
 import fr.eyzox.forgefaction.serial.NBTSupported;
 import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.HeadQuarter;
-import fr.eyzox.forgefaction.territory.Quarter;
+import fr.eyzox.forgefaction.territory.TerritoryAccess;
 
 public class Faction implements NBTSupported {
 
@@ -148,18 +150,24 @@ public class Faction implements NBTSupported {
 	public int getNbPlayer() {
 		return players.size();
 	}
+	
+	public void claims(HeadQuarter quarter) throws AlreadyClaimedException {
+		this.claims(quarter, ForgeFactionData.getData().getFactions());
+	}
 
-	public void claims(HeadQuarter quarter) {
+	public void claims(HeadQuarter quarter, TerritoryAccess access) throws AlreadyClaimedException {
+			Collection<AbstractQuarter> conflicts = access.checkConflicts(quarter);
+			if(!conflicts.isEmpty()) throw new AlreadyClaimedException(conflicts, quarter);
+			
 			this.headquarters.add(quarter);
 			ForgeFactionData.getData().markDirty();
-			if(quarter.getChunk().isChunkLoaded)
-				ForgeFactionData.getData().getIndex().add(quarter);
+			ForgeFactionData.getData().getIndex().add(quarter);
+				
 	}
 
 	public void unclaims(HeadQuarter headquarter) {
 		if(this.headquarters.remove(headquarter)) {
 			headquarter.onUnclaims();
-			if(headquarter.getChunk().isChunkLoaded) ForgeFactionData.getData().getIndex().remove(headquarter.getChunk());
 			ForgeFactionData.getData().markDirty();
 		}
 	}
