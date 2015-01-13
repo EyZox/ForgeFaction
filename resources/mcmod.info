@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ForgeFaction",
+  "name": "Forge Faction",
+  "description": "A PVP mod",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["EyZox"],
+  "credits": "EyZox",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
