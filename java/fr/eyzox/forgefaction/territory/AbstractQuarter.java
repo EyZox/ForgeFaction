@@ -89,4 +89,19 @@ public abstract class AbstractQuarter {
 		if(this.getChunk().isChunkLoaded) ForgeFactionData.getData().getIndex().remove(this.getChunk());
 	}
 	
+	public boolean isAdjacent(AbstractQuarter quarter) {
+		boolean adjacent = false;
+		for(int x = this.getChunk().xPosition; !adjacent && x<this.getChunk().xPosition+this.getSize(); x++) {
+			if(quarter.contains(this.getChunk().worldObj, x, this.getChunk().zPosition-1) || quarter.contains(this.getChunk().worldObj, x, this.getChunk().zPosition+this.getSize())) {
+				adjacent = true;
+			}
+		}
+		for(int z = this.getChunk().zPosition; !adjacent && z<this.getChunk().zPosition+this.getSize(); x++) {
+			if(quarter.contains(this.getChunk().worldObj, this.getChunk().xPosition-1,z) || quarter.contains(this.getChunk().worldObj, this.getChunk().xPosition+this.getSize(),z)) {
+				adjacent = true;
+			}
+		}
+		return adjacent;
+	}
+	
 }

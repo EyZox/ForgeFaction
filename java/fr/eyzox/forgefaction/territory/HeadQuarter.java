@@ -70,23 +70,13 @@ public class HeadQuarter extends AbstractQuarter {
 		return quarters;
 	}
 	
-	public void claimsNEW(Quarter quarter) throws NoAdjacentChunkException, AlreadyClaimedException {
+	public void claims(Quarter quarter) throws NoAdjacentChunkException, AlreadyClaimedException {
 		this.claims(quarter, ForgeFactionData.getData().getFactions());
 	}
 	
 	public void claims(Quarter quarter, TerritoryAccess access) throws NoAdjacentChunkException, AlreadyClaimedException {
-		boolean adjacent = false;
-		for(int x = this.getChunk().xPosition; !adjacent && x<this.getChunk().xPosition+this.getSize(); x++) {
-			if(quarter.contains(this.getChunk().worldObj, x, this.getChunk().zPosition-1) || quarter.contains(this.getChunk().worldObj, x, this.getChunk().zPosition+this.getSize())) {
-				adjacent = true;
-			}
-		}
-		for(int z = this.getChunk().zPosition; !adjacent && z<this.getChunk().zPosition+this.getSize(); x++) {
-			if(quarter.contains(this.getChunk().worldObj, this.getChunk().xPosition-1,z) || quarter.contains(this.getChunk().worldObj, this.getChunk().xPosition+this.getSize(),z)) {
-				adjacent = true;
-			}
-		}
-		if(!adjacent) throw new NoAdjacentChunkException(this, quarter);
+		
+		if(!isAdjacent(quarter)) throw new NoAdjacentChunkException(this, quarter);
 		
 		Collection<AbstractQuarter> conflicts = access.checkConflicts(quarter);
 		if(conflicts.isEmpty()) throw new AlreadyClaimedException(conflicts, quarter);

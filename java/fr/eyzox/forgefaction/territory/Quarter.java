@@ -1,8 +1,12 @@
 package fr.eyzox.forgefaction.territory;
 
+import java.util.Collection;
+
 import fr.eyzox.forgefaction.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyChildException;
+import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.exception.AlreadyParentException;
+import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
 import fr.eyzox.forgefaction.team.Faction;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -28,15 +32,24 @@ public class Quarter extends AbstractQuarter {
 	public AbstractQuarter getParent() {
 		return parent;
 	}
-	public void setParent(AbstractQuarter parent) {
+	protected void setParent(AbstractQuarter parent) {
 		this.parent = parent;
 	}
 	public Quarter getChild() {
 		return child;
 	}
-	public void claims(Quarter child) throws AlreadyChildException, AlreadyParentException{
+	
+	public void claims(Quarter child) throws AlreadyChildException, AlreadyParentException, NoAdjacentChunkException, AlreadyClaimedException {
+		this.claims(child, ForgeFactionData.getData().getFactions());
+	}
+	
+	public void claims(Quarter child, TerritoryAccess access) throws AlreadyChildException, AlreadyParentException, NoAdjacentChunkException, AlreadyClaimedException{
 		if(this.child != null) throw new AlreadyChildException(this, child);
-		if(child.getFaction() != null) throw new AlreadyParentException(this, child);
+		if(child.getParent() != null) throw new AlreadyParentException(child);
+		if(!this.isAdjacent(child)) throw new NoAdjacentChunkException(this, child);
+		Collection<AbstractQuarter> conflicts = access.checkConflicts(child);
+		if(!conflicts.isEmpty()) throw new AlreadyClaimedException(conflicts, child);
+		
 		this.child = child;
 		this.child.setParent(this);
 		ForgeFactionData.getData().markDirty();
