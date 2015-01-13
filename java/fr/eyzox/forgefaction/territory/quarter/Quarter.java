@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction.territory;
+package fr.eyzox.forgefaction.territory.quarter;
 
 import java.util.Collection;
 
@@ -7,7 +7,8 @@ import fr.eyzox.forgefaction.exception.AlreadyChildException;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.exception.AlreadyParentException;
 import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
-import fr.eyzox.forgefaction.team.Faction;
+import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -84,6 +85,10 @@ public class Quarter extends AbstractQuarter {
 		super.onUnclaims();
 		if(this.child != null) this.child.onUnclaims();
 		
+	}
+	@Override
+	public String getName() {
+		return "quarter";
 	}
 
 }

@@ -10,7 +10,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 import fr.eyzox.forgefaction.ForgeFactionData;
 import fr.eyzox.forgefaction.ForgeFactionMod;
 import fr.eyzox.forgefaction.event.interract.InterractStrategy;
-import fr.eyzox.forgefaction.team.Faction;
+import fr.eyzox.forgefaction.faction.Faction;
 
 public class ForgeFactionPlayerProperties implements IExtendedEntityProperties {
 

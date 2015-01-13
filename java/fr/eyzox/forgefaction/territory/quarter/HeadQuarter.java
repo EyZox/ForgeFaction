@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction.territory;
+package fr.eyzox.forgefaction.territory.quarter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +12,8 @@ import net.minecraftforge.common.DimensionManager;
 import fr.eyzox.forgefaction.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
-import fr.eyzox.forgefaction.team.Faction;
+import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.territory.TerritoryAccess;
 
 public class HeadQuarter extends AbstractQuarter {
 
@@ -98,6 +99,10 @@ public class HeadQuarter extends AbstractQuarter {
 		for(Quarter quarter : quarters) {
 			quarter.onUnclaims();
 		}
+	}
+	@Override
+	public String getName() {
+		return "Headquarter";
 	}
 
 }

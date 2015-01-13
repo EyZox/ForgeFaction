@@ -7,8 +7,8 @@ import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.FMLLog;
-import fr.eyzox.forgefaction.team.Faction;
-import fr.eyzox.forgefaction.team.Factions;
+import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.faction.Factions;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
 
 public class ForgeFactionData extends WorldSavedData {

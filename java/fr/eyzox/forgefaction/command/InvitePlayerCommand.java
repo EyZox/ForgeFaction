@@ -7,7 +7,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
 
-public class InvitePlayer extends ForgeFactionCommand {
+public class InvitePlayerCommand extends ForgeFactionCommand {
 
 	@Override
 	public void process(ICommandSender sender, String[] args) {

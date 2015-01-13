@@ -1,8 +1,8 @@
 package fr.eyzox.forgefaction.block;
 
 import fr.eyzox.forgefaction.creativetabs.ForgeFactionBlocksTab;
-import fr.eyzox.forgefaction.territory.AbstractQuarter;
-import fr.eyzox.forgefaction.territory.Quarter;
+import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
+import fr.eyzox.forgefaction.territory.quarter.Quarter;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
 

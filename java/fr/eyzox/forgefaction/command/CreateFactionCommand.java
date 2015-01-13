@@ -5,11 +5,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import fr.eyzox.forgefaction.ForgeFactionData;
+import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.faction.Factions;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
-import fr.eyzox.forgefaction.team.Faction;
-import fr.eyzox.forgefaction.team.Factions;
 
-public class CreateFaction extends ForgeFactionCommand {
+public class CreateFactionCommand extends ForgeFactionCommand {
 
 	@Override
 	public void process(ICommandSender sender, String[] args) {

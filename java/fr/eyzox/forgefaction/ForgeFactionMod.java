@@ -13,10 +13,11 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import fr.eyzox.forgefaction.block.ModBlocks;
-import fr.eyzox.forgefaction.command.CreateFaction;
-import fr.eyzox.forgefaction.command.InvitePlayer;
-import fr.eyzox.forgefaction.command.KickPlayer;
-import fr.eyzox.forgefaction.command.LeaveFaction;
+import fr.eyzox.forgefaction.command.ClaimCommand;
+import fr.eyzox.forgefaction.command.CreateFactionCommand;
+import fr.eyzox.forgefaction.command.InvitePlayerCommand;
+import fr.eyzox.forgefaction.command.KickPlayerCommand;
+import fr.eyzox.forgefaction.command.LeaveFactionCommand;
 import fr.eyzox.forgefaction.proxy.CommonProxy;
 
 @Mod(modid = ForgeFactionMod.MODID, version = ForgeFactionMod.VERSION)
@@ -43,10 +44,11 @@ public class ForgeFactionMod
 
 	private void registerCommand() {
 		ServerCommandManager m = (ServerCommandManager) MinecraftServer.getServer().getCommandManager();
-		m.registerCommand(new CreateFaction());
-		m.registerCommand(new InvitePlayer());
-		m.registerCommand(new LeaveFaction());
-		m.registerCommand(new KickPlayer());
+		m.registerCommand(new CreateFactionCommand());
+		m.registerCommand(new InvitePlayerCommand());
+		m.registerCommand(new LeaveFactionCommand());
+		m.registerCommand(new KickPlayerCommand());
+		m.registerCommand(new ClaimCommand());
 	}
 
 	public static ForgeFactionMod getInstance() { return INSTANCE;}

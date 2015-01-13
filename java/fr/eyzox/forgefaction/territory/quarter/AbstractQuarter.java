@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction.territory;
+package fr.eyzox.forgefaction.territory.quarter;
 
 import java.util.Iterator;
 
@@ -7,9 +7,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.DimensionManager;
 import fr.eyzox.forgefaction.ForgeFactionData;
+import fr.eyzox.forgefaction.exception.AlreadyChildException;
+import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
+import fr.eyzox.forgefaction.exception.AlreadyParentException;
+import fr.eyzox.forgefaction.exception.ForgeFactionException;
+import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
+import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.serial.NBTSupported;
 import fr.eyzox.forgefaction.serial.NBTUtils;
-import fr.eyzox.forgefaction.team.Faction;
 
 public abstract class AbstractQuarter {
 	protected static World worldLoader;
@@ -30,6 +35,8 @@ public abstract class AbstractQuarter {
 	
 	public abstract int getSize();
 	public abstract Faction getFaction();
+	public abstract String getName();
+	public abstract void claims(Quarter quarter) throws ForgeFactionException;
 	
 	public boolean isAttacked() {
 		return attackTimer>=0;

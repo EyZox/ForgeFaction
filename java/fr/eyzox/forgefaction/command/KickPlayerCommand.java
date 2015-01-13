@@ -1,13 +1,13 @@
 package fr.eyzox.forgefaction.command;
 
+import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
-import fr.eyzox.forgefaction.team.Faction;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 
-public class KickPlayer extends ForgeFactionCommand {
+public class KickPlayerCommand extends ForgeFactionCommand {
 
 	@Override
 	public String getName() {

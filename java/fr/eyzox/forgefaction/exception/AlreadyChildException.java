@@ -1,8 +1,8 @@
 package fr.eyzox.forgefaction.exception;
 
-import fr.eyzox.forgefaction.territory.Quarter;
+import fr.eyzox.forgefaction.territory.quarter.Quarter;
 
-public class AlreadyChildException extends Exception {
+public class AlreadyChildException extends ForgeFactionException {
 	
 	public final Quarter src, dest;
 	

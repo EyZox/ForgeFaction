@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import net.minecraft.world.chunk.Chunk;
 
 public class TerritoryIndex implements TerritoryAccess{

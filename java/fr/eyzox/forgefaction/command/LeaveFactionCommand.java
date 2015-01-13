@@ -4,10 +4,10 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import fr.eyzox.forgefaction.ForgeFactionData;
+import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
-import fr.eyzox.forgefaction.team.Faction;
 
-public class LeaveFaction extends ForgeFactionCommand {
+public class LeaveFactionCommand extends ForgeFactionCommand {
 
 	@Override
 	public void process(ICommandSender sender, String[] args) {

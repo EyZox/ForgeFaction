@@ -6,7 +6,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 
-public class Claim extends ForgeFactionCommand {
+public class ClaimCommand extends ForgeFactionCommand {
 
 	@Override
 	public String getName() {
@@ -36,6 +36,12 @@ public class Claim extends ForgeFactionCommand {
 		}
 		
 		ForgeFactionPlayerProperties playerProperties = ForgeFactionPlayerProperties.get((EntityPlayer) sender);
+		
+		if(playerProperties.getInterractStrategy() instanceof ClaimInterract) {
+			playerProperties.setInterractStrategy(null);
+			return;
+		}
+		
 		if(playerProperties.getFaction() == null) {
 			sender.addChatMessage(new ChatComponentText("You must be in a faction to claim a territory"));
 			return;

@@ -1,8 +1,8 @@
 package fr.eyzox.forgefaction.exception;
 
-import fr.eyzox.forgefaction.team.Faction;
+import fr.eyzox.forgefaction.faction.Faction;
 
-public class NameAlreadyUsedException extends RuntimeException {
+public class NameAlreadyUsedException extends ForgeFactionException {
 
 	public final Faction team;
 	

@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction.team;
+package fr.eyzox.forgefaction.faction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,9 +18,9 @@ import fr.eyzox.forgefaction.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
 import fr.eyzox.forgefaction.serial.NBTSupported;
-import fr.eyzox.forgefaction.territory.AbstractQuarter;
-import fr.eyzox.forgefaction.territory.HeadQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
+import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
+import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
 
 public class Faction implements NBTSupported {
 

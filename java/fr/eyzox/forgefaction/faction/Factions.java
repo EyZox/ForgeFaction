@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction.team;
+package fr.eyzox.forgefaction.faction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,10 +9,10 @@ import java.util.TreeSet;
 
 import net.minecraft.world.chunk.Chunk;
 import fr.eyzox.forgefaction.ForgeFactionData;
-import fr.eyzox.forgefaction.territory.AbstractQuarter;
-import fr.eyzox.forgefaction.territory.HeadQuarter;
-import fr.eyzox.forgefaction.territory.Quarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
+import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
+import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
+import fr.eyzox.forgefaction.territory.quarter.Quarter;
 
 public class Factions implements TerritoryAccess{
 	private Set<Faction> factions;
