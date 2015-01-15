@@ -80,13 +80,13 @@ public class ClaimInterract implements InterractStrategy {
 						Quarter newTerritory = (Quarter) abstractQuarterBlock.createAbstractQuarter(e.world, e.x, e.y, e.z);
 						try {
 							from.claims(newTerritory, TerritoryIndex.getIndex());
-							playerProperties.setInterractStrategy(null);
 							playerProperties.getFaction().sendMessage(new ChatComponentText(e.entityPlayer.getDisplayName()+" has claimed new territory "+newTerritory.printCoordinates()));
 						} catch (ForgeFactionException e1) {
 							e1.printStackTrace();
 							e.entityPlayer.addChatComponentMessage(new ChatComponentText(e1.getMessage()));
 						}
 					}
+					playerProperties.setInterractStrategy(null);
 				}
 			}
 			/////////////////////////
