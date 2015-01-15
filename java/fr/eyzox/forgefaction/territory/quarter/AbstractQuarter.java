@@ -113,7 +113,7 @@ public abstract class AbstractQuarter {
 				adjacent = true;
 			}
 		}
-		for(int z = this.getChunk().zPosition; !adjacent && z<this.getChunk().zPosition+this.getSize(); x++) {
+		for(int z = this.getChunk().zPosition; !adjacent && z<this.getChunk().zPosition+this.getSize(); z++) {
 			if(quarter.contains(this.getChunk().dimensionID, this.getChunk().xPosition-1,z) || quarter.contains(this.getChunk().dimensionID, this.getChunk().xPosition+this.getSize(),z)) {
 				adjacent = true;
 			}
