@@ -70,5 +70,9 @@ public class ForgeFactionChunk implements NBTSupported{
 				+ xPosition + ", zPosition=" + zPosition + "]";
 	}
 	
+	public static final int getChunkPosition(int blockPosition) {
+		return (blockPosition >> 4);
+	}
+	
 	
 }

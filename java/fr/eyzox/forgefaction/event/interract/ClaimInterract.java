@@ -45,7 +45,7 @@ public class ClaimInterract implements InterractStrategy {
 				ForgeFactionPlayerProperties playerProperties = ForgeFactionPlayerProperties.get(e.entityPlayer);
 				//step 1 : select a source
 				if(from == null) {
-					this.from = TerritoryIndex.getIndex().getAbstractQuarter(new ForgeFactionChunk(e.world.provider.dimensionId, e.x, e.z));
+					this.from = TerritoryIndex.getIndex().getAbstractQuarter(new ForgeFactionChunk(e.world.provider.dimensionId, ForgeFactionChunk.getChunkPosition(e.x), ForgeFactionChunk.getChunkPosition(e.z)));
 					//If from == null : zone is wilderness
 					if(this.from == null) {
 						if(abstractQuarterBlock instanceof HeadquarterBlock) {
