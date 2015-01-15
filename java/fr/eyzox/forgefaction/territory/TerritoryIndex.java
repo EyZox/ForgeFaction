@@ -9,33 +9,39 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
+import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
 import net.minecraft.world.chunk.Chunk;
 
 public class TerritoryIndex implements TerritoryAccess{
 
-	private Map<Chunk, AbstractQuarter> index = new HashMap<Chunk, AbstractQuarter>();
+	private final static TerritoryIndex INSTANCE = new TerritoryIndex();
+	public static TerritoryIndex getIndex() { return INSTANCE;}
+	
+	private Map<ForgeFactionChunk, AbstractQuarter> index = new HashMap<ForgeFactionChunk, AbstractQuarter>();
+	
+	private TerritoryIndex() {}
 	
 	public void add(AbstractQuarter quarter) {
-		for(Chunk chunk : quarter.getAllChunks()) {
-			if(chunk.isChunkLoaded) this.add(quarter, chunk);
+		for(ForgeFactionChunk chunk : quarter.getAllChunks()) {
+			this.add(quarter, chunk);
 		}
 	}
 	
 	public void remove(AbstractQuarter quarter) {
-		for(Chunk chunk : quarter.getAllChunks()) {
+		for(ForgeFactionChunk chunk : quarter.getAllChunks()) {
 			this.remove(chunk);
 		}
 	}
 	
-	public void add(AbstractQuarter quarter, Chunk c) {
+	public void add(AbstractQuarter quarter, ForgeFactionChunk c) {
 		this.index.put(c, quarter);
 	}
 	
-	public void remove(Chunk c) {
+	public void remove(ForgeFactionChunk c) {
 		index.remove(c);
 	}
 	
-	public AbstractQuarter getAbstractQuarter(Chunk c) {
+	public AbstractQuarter getAbstractQuarter(ForgeFactionChunk c) {
 		return index.get(c);
 	}
 	

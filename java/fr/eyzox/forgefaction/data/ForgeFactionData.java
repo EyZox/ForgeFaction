@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction;
+package fr.eyzox.forgefaction.data;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -7,8 +7,8 @@ import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.FMLLog;
+import fr.eyzox.forgefaction.ForgeFactionMod;
 import fr.eyzox.forgefaction.faction.Faction;
-import fr.eyzox.forgefaction.faction.Factions;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
 
 public class ForgeFactionData extends WorldSavedData {
@@ -16,7 +16,6 @@ public class ForgeFactionData extends WorldSavedData {
 	public static final String KEY = ForgeFactionMod.MODID+":Data";
 	
 	private Factions factions = new Factions();
-	private TerritoryIndex territoryIndex = new TerritoryIndex();
 	
 	public ForgeFactionData(String key) {
 		super(KEY);
@@ -39,7 +38,7 @@ public class ForgeFactionData extends WorldSavedData {
 	public void readFromNBT(NBTTagCompound tag) {
 		NBTTagList teamList = (NBTTagList) tag.getTag("teams");
 		for(int i=0; i<teamList.tagCount(); i++) {
-			factions.add(new Faction(teamList.getCompoundTagAt(i)));
+			factions.factionSet.add(new Faction(teamList.getCompoundTagAt(i)));
 		}
 
 	}
@@ -56,6 +55,5 @@ public class ForgeFactionData extends WorldSavedData {
 	}
 	
 	public Factions getFactions() { return factions; }
-	public TerritoryIndex getIndex() { return territoryIndex;}
 
 }

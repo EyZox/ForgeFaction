@@ -3,18 +3,14 @@ package fr.eyzox.forgefaction.event.interract;
 import net.minecraft.block.Block;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import fr.eyzox.forgefaction.ForgeFactionData;
 import fr.eyzox.forgefaction.block.AbstractQuarterBlock;
 import fr.eyzox.forgefaction.block.HeadquarterBlock;
-import fr.eyzox.forgefaction.exception.AlreadyChildException;
-import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
-import fr.eyzox.forgefaction.exception.AlreadyParentException;
+import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.ForgeFactionException;
-import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
-import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
+import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
+import fr.eyzox.forgefaction.territory.TerritoryIndex;
 import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
 import fr.eyzox.forgefaction.territory.quarter.Quarter;
@@ -49,13 +45,13 @@ public class ClaimInterract implements InterractStrategy {
 				ForgeFactionPlayerProperties playerProperties = ForgeFactionPlayerProperties.get(e.entityPlayer);
 				//step 1 : select a source
 				if(from == null) {
-					this.from = ForgeFactionData.getData().getIndex().getAbstractQuarter(e.world.getChunkFromBlockCoords(e.x, e.z));
+					this.from = TerritoryIndex.getIndex().getAbstractQuarter(new ForgeFactionChunk(e.world.provider.dimensionId, e.x, e.z));
 					//If from == null : zone is wilderness
 					if(this.from == null) {
 						if(abstractQuarterBlock instanceof HeadquarterBlock) {
 							HeadQuarter hq = (HeadQuarter) abstractQuarterBlock.createAbstractQuarter(e.world, e.x, e.y, e.z);
 							try {
-								playerProperties.getFaction().claims(hq, ForgeFactionData.getData().getIndex());
+								playerProperties.getFaction().claims(hq, TerritoryIndex.getIndex());
 								playerProperties.setInterractStrategy(null);
 								playerProperties.getFaction().sendMessage(new ChatComponentText(e.entityPlayer.getDisplayName()+" has claimed new territory "+hq.printCoordinates()));
 							} catch (ForgeFactionException e1) {
@@ -83,7 +79,7 @@ public class ClaimInterract implements InterractStrategy {
 					}else { //Quarter
 						Quarter newTerritory = (Quarter) abstractQuarterBlock.createAbstractQuarter(e.world, e.x, e.y, e.z);
 						try {
-							from.claims(newTerritory);
+							from.claims(newTerritory, TerritoryIndex.getIndex());
 							playerProperties.setInterractStrategy(null);
 							playerProperties.getFaction().sendMessage(new ChatComponentText(e.entityPlayer.getDisplayName()+" has claimed new territory "+newTerritory.printCoordinates()));
 						} catch (ForgeFactionException e1) {

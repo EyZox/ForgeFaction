@@ -7,8 +7,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
-import fr.eyzox.forgefaction.ForgeFactionData;
 import fr.eyzox.forgefaction.ForgeFactionMod;
+import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.event.interract.InterractStrategy;
 import fr.eyzox.forgefaction.faction.Faction;
 

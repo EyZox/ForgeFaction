@@ -6,6 +6,6 @@ import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import net.minecraft.world.chunk.Chunk;
 
 public interface TerritoryAccess {
-	public AbstractQuarter getAbstractQuarter(Chunk c);
+	public AbstractQuarter getAbstractQuarter(ForgeFactionChunk c);
 	public Collection<AbstractQuarter> checkConflicts(AbstractQuarter quarter);
 }

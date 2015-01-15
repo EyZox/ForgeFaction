@@ -7,27 +7,22 @@ import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.DimensionManager;
-import fr.eyzox.forgefaction.ForgeFactionData;
+import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
 import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
+import fr.eyzox.forgefaction.territory.TerritoryIndex;
 
 public class HeadQuarter extends AbstractQuarter {
 
 	private List<Quarter> quarters = new ArrayList<Quarter>();
 	private Faction team;
 	
-	public HeadQuarter(World w, int x, int y, int z) {
-		super(w,x,y,z);
-	}
-	public HeadQuarter(NBTTagCompound tag) {
-		worldLoader = DimensionManager.getWorld(tag.getInteger("dim"));
-		readFromNBT(tag);
-		worldLoader = null;
-	}
+	public HeadQuarter(World w, int x, int y, int z) {super(w,x,y,z);}
+	public HeadQuarter(int dim, int x, int y, int z) {super(dim, x, y, z);}
+	public HeadQuarter(NBTTagCompound tag) {super(tag);}
 
 	@Override
 	public int getSize() {
@@ -71,10 +66,6 @@ public class HeadQuarter extends AbstractQuarter {
 		return quarters;
 	}
 	
-	public void claims(Quarter quarter) throws NoAdjacentChunkException, AlreadyClaimedException {
-		this.claims(quarter, ForgeFactionData.getData().getFactions());
-	}
-	
 	public void claims(Quarter quarter, TerritoryAccess access) throws NoAdjacentChunkException, AlreadyClaimedException {
 		
 		if(!isAdjacent(quarter)) throw new NoAdjacentChunkException(this, quarter);
@@ -84,7 +75,7 @@ public class HeadQuarter extends AbstractQuarter {
 		
 		quarters.add(quarter);
 		ForgeFactionData.getData().markDirty();
-		ForgeFactionData.getData().getIndex().add(quarter);
+		TerritoryIndex.getIndex().add(quarter);
 	}
 	
 	public void unclaims(Quarter quarter) {

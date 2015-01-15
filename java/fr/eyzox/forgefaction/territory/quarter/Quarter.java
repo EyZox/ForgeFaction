@@ -2,28 +2,25 @@ package fr.eyzox.forgefaction.territory.quarter;
 
 import java.util.Collection;
 
-import fr.eyzox.forgefaction.ForgeFactionData;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyChildException;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.exception.AlreadyParentException;
 import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
 import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
+import fr.eyzox.forgefaction.territory.TerritoryIndex;
 
 public class Quarter extends AbstractQuarter {
 
 	private AbstractQuarter parent;
 	private Quarter child;
 	
-	public Quarter(World w, int x, int y, int z) {
-		super(w,x,y,z);
-	}
-	public Quarter(NBTTagCompound tag) {
-		super(tag);
-	}
+	public Quarter(World w, int x, int y, int z) {super(w,x,y,z);}
+	public Quarter(int dim, int x, int y, int z) {super(dim, x, y, z);}
+	public Quarter(NBTTagCompound tag) {super(tag);}
 	
 	@Override
 	public int getSize() {
@@ -40,10 +37,6 @@ public class Quarter extends AbstractQuarter {
 		return child;
 	}
 	
-	public void claims(Quarter child) throws AlreadyChildException, AlreadyParentException, NoAdjacentChunkException, AlreadyClaimedException {
-		this.claims(child, ForgeFactionData.getData().getFactions());
-	}
-	
 	public void claims(Quarter child, TerritoryAccess access) throws AlreadyChildException, AlreadyParentException, NoAdjacentChunkException, AlreadyClaimedException{
 		if(this.child != null) throw new AlreadyChildException(this, child);
 		if(child.getParent() != null) throw new AlreadyParentException(child);
@@ -54,7 +47,7 @@ public class Quarter extends AbstractQuarter {
 		this.child = child;
 		this.child.setParent(this);
 		ForgeFactionData.getData().markDirty();
-		ForgeFactionData.getData().getIndex().add(child);
+		TerritoryIndex.getIndex().add(child);
 	}
 
 	@Override

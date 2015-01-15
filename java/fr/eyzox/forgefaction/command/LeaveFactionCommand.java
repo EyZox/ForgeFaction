@@ -3,7 +3,7 @@ package fr.eyzox.forgefaction.command;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
-import fr.eyzox.forgefaction.ForgeFactionData;
+import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
 

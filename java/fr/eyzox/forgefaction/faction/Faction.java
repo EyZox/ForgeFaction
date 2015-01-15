@@ -3,7 +3,6 @@ package fr.eyzox.forgefaction.faction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -13,12 +12,12 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.world.chunk.Chunk;
-import fr.eyzox.forgefaction.ForgeFactionData;
+import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
 import fr.eyzox.forgefaction.serial.NBTSupported;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
+import fr.eyzox.forgefaction.territory.TerritoryIndex;
 import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
 
@@ -159,9 +158,10 @@ public class Faction implements NBTSupported {
 			Collection<AbstractQuarter> conflicts = access.checkConflicts(quarter);
 			if(!conflicts.isEmpty()) throw new AlreadyClaimedException(conflicts, quarter);
 			
+			quarter.setFaction(this);
 			this.headquarters.add(quarter);
 			ForgeFactionData.getData().markDirty();
-			ForgeFactionData.getData().getIndex().add(quarter);
+			TerritoryIndex.getIndex().add(quarter);
 				
 	}
 

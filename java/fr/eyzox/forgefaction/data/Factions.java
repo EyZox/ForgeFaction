@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction.faction;
+package fr.eyzox.forgefaction.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,18 +7,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import net.minecraft.world.chunk.Chunk;
-import fr.eyzox.forgefaction.ForgeFactionData;
+import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
 import fr.eyzox.forgefaction.territory.quarter.Quarter;
 
 public class Factions implements TerritoryAccess{
-	private Set<Faction> factions;
+	protected Set<Faction> factionSet;
 
 	public Factions() {
-		factions = new TreeSet<Faction>(new Comparator<Faction>() {
+		factionSet = new TreeSet<Faction>(new Comparator<Faction>() {
 
 			@Override
 			public int compare(Faction o1, Faction o2) {
@@ -28,7 +28,7 @@ public class Factions implements TerritoryAccess{
 	}
 
 	public boolean add(Faction team) {
-		boolean b = factions.add(team);
+		boolean b = factionSet.add(team);
 		if(b) {
 			ForgeFactionData.getData().markDirty();
 		}
@@ -36,30 +36,30 @@ public class Factions implements TerritoryAccess{
 	}
 
 	public void remove(Faction team) {
-		if(factions.remove(team)) ForgeFactionData.getData().markDirty();
+		if(factionSet.remove(team)) ForgeFactionData.getData().markDirty();
 	}
 
 	public boolean contains(String name) {
-		for(Faction team : factions) {
+		for(Faction team : factionSet) {
 			if(team.getName().equalsIgnoreCase(name)) return true;
 		}
 		return false;
 	}
 
 	public Faction get(String name) {
-		for(Faction team : factions) {
+		for(Faction team : factionSet) {
 			if(team.getName().equalsIgnoreCase(name)) return team;
 		}
 		return null;
 	}
 	
 	public Collection<Faction> getFactions() {
-		return factions;
+		return factionSet;
 	}
 
 	@Override
-	public AbstractQuarter getAbstractQuarter(Chunk c) {
-		for(Faction faction : factions) {
+	public AbstractQuarter getAbstractQuarter(ForgeFactionChunk c) {
+		for(Faction faction : factionSet) {
 			for(HeadQuarter hq : faction.getHeadquarters()) {
 				if(hq.contains(c)) return hq;
 				for(Quarter quarter: hq.getQuarters()) {
@@ -76,7 +76,7 @@ public class Factions implements TerritoryAccess{
 	@Override
 	public Collection<AbstractQuarter> checkConflicts(AbstractQuarter quarterToCheck) {
 		List<AbstractQuarter> conflicts = new ArrayList<AbstractQuarter>();
-		for(Faction faction : factions) {
+		for(Faction faction : factionSet) {
 			for(HeadQuarter hq : faction.getHeadquarters()) {
 				if(hq.contains(quarterToCheck)) conflicts.add(hq);
 				for(Quarter quarter: hq.getQuarters()) {
