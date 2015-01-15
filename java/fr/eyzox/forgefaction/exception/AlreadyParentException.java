@@ -1,12 +1,13 @@
 package fr.eyzox.forgefaction.exception;
 
+import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
-import fr.eyzox.forgefaction.territory.quarter.Quarter;
+import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 
 public class AlreadyParentException extends ForgeFactionException {
-	public final AbstractQuarter quarter;
+	public final IQuarter quarter;
 	
-	public AlreadyParentException(Quarter quarter) {
+	public AlreadyParentException(IQuarter quarter) {
 		super("This quarter already has a source");
 		this.quarter = quarter;
 	}

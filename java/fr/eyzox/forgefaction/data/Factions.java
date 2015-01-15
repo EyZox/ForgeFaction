@@ -9,10 +9,11 @@ import java.util.TreeSet;
 
 import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
+import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
-import fr.eyzox.forgefaction.territory.quarter.Quarter;
+import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 
 public class Factions implements TerritoryAccess{
 	protected Set<Faction> factionSet;
@@ -58,13 +59,13 @@ public class Factions implements TerritoryAccess{
 	}
 
 	@Override
-	public AbstractQuarter getAbstractQuarter(ForgeFactionChunk c) {
+	public IQuarter getIQuarter(ForgeFactionChunk c) {
 		for(Faction faction : factionSet) {
 			for(HeadQuarter hq : faction.getHeadquarters()) {
-				if(hq.contains(c)) return hq;
-				for(Quarter quarter: hq.getQuarters()) {
+				if(hq.contains(c.dimensionID, c.xPosition, c.zPosition)) return hq;
+				for(QuarterBase quarter: hq.getChilds()) {
 					do {
-						if(quarter.contains(c)) return quarter;
+						if(quarter.contains(c.dimensionID, c.xPosition, c.zPosition)) return quarter;
 						quarter = quarter.getChild();
 					}while(quarter != null);
 				}
@@ -74,12 +75,12 @@ public class Factions implements TerritoryAccess{
 	}
 
 	@Override
-	public Collection<AbstractQuarter> checkConflicts(AbstractQuarter quarterToCheck) {
-		List<AbstractQuarter> conflicts = new ArrayList<AbstractQuarter>();
+	public Collection<IQuarter> checkConflicts(IQuarter quarterToCheck) {
+		List<IQuarter> conflicts = new ArrayList<IQuarter>();
 		for(Faction faction : factionSet) {
 			for(HeadQuarter hq : faction.getHeadquarters()) {
 				if(hq.contains(quarterToCheck)) conflicts.add(hq);
-				for(Quarter quarter: hq.getQuarters()) {
+				for(QuarterBase quarter: hq.getChilds()) {
 					do {
 						if(quarter.contains(quarterToCheck)) conflicts.add(quarter);
 						quarter = quarter.getChild();

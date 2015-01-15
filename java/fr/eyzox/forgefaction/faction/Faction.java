@@ -16,6 +16,7 @@ import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
 import fr.eyzox.forgefaction.serial.NBTSupported;
+import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
 import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
@@ -155,7 +156,7 @@ public class Faction implements NBTSupported {
 	}
 
 	public void claims(HeadQuarter quarter, TerritoryAccess access) throws AlreadyClaimedException {
-			Collection<AbstractQuarter> conflicts = access.checkConflicts(quarter);
+			Collection<IQuarter> conflicts = access.checkConflicts(quarter);
 			if(!conflicts.isEmpty()) throw new AlreadyClaimedException(conflicts, quarter);
 			
 			quarter.setFaction(this);

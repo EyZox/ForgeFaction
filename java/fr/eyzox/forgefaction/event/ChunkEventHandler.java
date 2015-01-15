@@ -12,10 +12,11 @@ import fr.eyzox.forgefaction.ForgeFactionMod;
 import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
+import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
 import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
-import fr.eyzox.forgefaction.territory.quarter.Quarter;
+import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 
 public class ChunkEventHandler implements IEvent {
 
@@ -29,12 +30,12 @@ public class ChunkEventHandler implements IEvent {
 		if(!event.world.isRemote && MinecraftServer.getServer().worldServers.length > 0) {
 			for(Faction faction : ForgeFactionData.getData().getFactions().getFactions()) {
 				for(HeadQuarter hq : faction.getHeadquarters()) {
-					if(hq.contains(event.getChunk())) {
+					if(hq.contains(event.getChunk().worldObj.provider.dimensionId, event.getChunk().xPosition, event.getChunk().zPosition)) {
 						TerritoryIndex.getIndex().add(hq, new ForgeFactionChunk(event.getChunk()));
 						return;
 					}
-					for(Quarter quarter : hq.getQuarters()) {
-						if(quarter.contains(event.getChunk())) {
+					for(QuarterBase quarter : hq.getChilds()) {
+						if(quarter.contains(event.getChunk().worldObj.provider.dimensionId, event.getChunk().xPosition, event.getChunk().zPosition)) {
 							TerritoryIndex.getIndex().add(quarter, new ForgeFactionChunk(event.getChunk()));
 							return;
 						}
@@ -55,8 +56,8 @@ public class ChunkEventHandler implements IEvent {
 	public void onEntityEnteringChunk(EntityEvent.EnteringChunk event) {
 		if(!event.entity.worldObj.isRemote && event.entity instanceof EntityPlayer) {
 			TerritoryIndex index = TerritoryIndex.getIndex();
-			AbstractQuarter oldAbstractQuarter = index.getAbstractQuarter(new ForgeFactionChunk(event.entity.worldObj.provider.dimensionId, event.oldChunkX, event.oldChunkZ));
-			AbstractQuarter newAbstractQuarter = index.getAbstractQuarter(new ForgeFactionChunk(event.entity.worldObj.provider.dimensionId, event.newChunkX, event.newChunkZ));
+			IQuarter oldAbstractQuarter = index.getIQuarter(new ForgeFactionChunk(event.entity.worldObj.provider.dimensionId, event.oldChunkX, event.oldChunkZ));
+			IQuarter newAbstractQuarter = index.getIQuarter(new ForgeFactionChunk(event.entity.worldObj.provider.dimensionId, event.newChunkX, event.newChunkZ));
 			
 			if(oldAbstractQuarter != newAbstractQuarter) {
 				EntityPlayer player = (EntityPlayer) event.entity;

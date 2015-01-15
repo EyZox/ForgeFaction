@@ -10,38 +10,42 @@ import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.exception.AlreadyParentException;
 import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
 import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.territory.IChild;
+import fr.eyzox.forgefaction.territory.IParentQuarter;
+import fr.eyzox.forgefaction.territory.IParentUniqueQuarter;
+import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
 
-public class Quarter extends AbstractQuarter {
+public class QuarterBase extends AbstractQuarter implements IParentUniqueQuarter<QuarterBase>, IChild<IParentQuarter<QuarterBase>> {
 
-	private AbstractQuarter parent;
-	private Quarter child;
+	private IParentQuarter<QuarterBase> parent;
+	private QuarterBase child;
 	
-	public Quarter(World w, int x, int y, int z) {super(w,x,y,z);}
-	public Quarter(int dim, int x, int y, int z) {super(dim, x, y, z);}
-	public Quarter(NBTTagCompound tag) {super(tag);}
+	public QuarterBase(World w, int x, int y, int z) {super(w,x,y,z);}
+	public QuarterBase(int dim, int x, int y, int z) {super(dim, x, y, z);}
+	public QuarterBase(NBTTagCompound tag) {super(tag);}
 	
 	@Override
 	public int getSize() {
 		return 3;
 	}
 	
-	public AbstractQuarter getParent() {
+	public IParentQuarter<QuarterBase> getParent() {
 		return parent;
 	}
-	protected void setParent(AbstractQuarter parent) {
+	public void setParent(IParentQuarter<QuarterBase> parent) {
 		this.parent = parent;
 	}
-	public Quarter getChild() {
+	public QuarterBase getChild() {
 		return child;
 	}
 	
-	public void claims(Quarter child, TerritoryAccess access) throws AlreadyChildException, AlreadyParentException, NoAdjacentChunkException, AlreadyClaimedException{
+	public void claims(QuarterBase child, TerritoryAccess access) throws AlreadyChildException, AlreadyParentException, NoAdjacentChunkException, AlreadyClaimedException{
 		if(this.child != null) throw new AlreadyChildException(this, child);
 		if(child.getParent() != null) throw new AlreadyParentException(child);
 		if(!this.isAdjacent(child)) throw new NoAdjacentChunkException(this, child);
-		Collection<AbstractQuarter> conflicts = access.checkConflicts(child);
+		Collection<IQuarter> conflicts = access.checkConflicts(child);
 		if(!conflicts.isEmpty()) throw new AlreadyClaimedException(conflicts, child);
 		
 		this.child = child;
@@ -64,7 +68,7 @@ public class Quarter extends AbstractQuarter {
 		super.readFromNBT(tag);
 		NBTTagCompound childTag = (NBTTagCompound) tag.getTag("child");
 		if(childTag != null) {
-			child = new Quarter(childTag);
+			child = new QuarterBase(childTag);
 			child.setParent(this);
 		}
 	}
@@ -82,6 +86,14 @@ public class Quarter extends AbstractQuarter {
 	@Override
 	public String getName() {
 		return "quarter";
+	}
+	@Override
+	public void unclaimsChild() {
+		if(child != null) {
+			child.onUnclaims();
+			this.child = null;
+			ForgeFactionData.getData().markDirty();
+		}
 	}
 
 }

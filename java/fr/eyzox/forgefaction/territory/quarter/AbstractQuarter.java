@@ -16,13 +16,13 @@ import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.serial.NBTSupported;
 import fr.eyzox.forgefaction.serial.NBTUtils;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
+import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
 
-public abstract class AbstractQuarter {
+public abstract class AbstractQuarter implements IQuarter{
 	private ForgeFactionChunk ffChunk;
 	protected int x,y,z;
-	private int attackTimer;
 	
 	public AbstractQuarter() {}
 	public AbstractQuarter(World w, int x, int y, int z) {
@@ -38,40 +38,11 @@ public abstract class AbstractQuarter {
 		this.readFromNBT(tag);
 	}
 	
-	public abstract int getSize();
-	public abstract Faction getFaction();
-	public abstract String getName();
-	public abstract void claims(Quarter quarter, TerritoryAccess access) throws ForgeFactionException;
-	
-	public void claims(Quarter quarter) throws ForgeFactionException {
-		this.claims(quarter, ForgeFactionData.getData().getFactions());
-	}
-	
-	public boolean isAttacked() {
-		return attackTimer>=0;
-	}
-	
-	public int getTimeLeft() {
-		return attackTimer;
-	}
-	
-	public boolean contains(Chunk c) {
-		return contains(c.worldObj, c.xPosition, c.zPosition);
-	}
-	
-	public boolean contains(ForgeFactionChunk c) {
-		return contains(c.dimensionID, c.xPosition, c.zPosition);
-	}
-	
-	public boolean contains(World world, int xPosition, int zPosition) {
-		return contains(world.provider.dimensionId, xPosition, zPosition);
-	}
-	
 	public boolean contains(int dimensionID, int xPosition, int zPosition) {
 		return this.getChunk().dimensionID == dimensionID && (xPosition >= this.ffChunk.xPosition && xPosition < this.ffChunk.xPosition+getSize()) && (zPosition >= this.ffChunk.zPosition && zPosition < this.ffChunk.zPosition+getSize());
 	}
 	
-	public boolean contains(AbstractQuarter quarter) {
+	public boolean contains(IQuarter quarter) {
 		return this.getChunk().dimensionID == quarter.getChunk().dimensionID
 				&& this.getChunk().xPosition+this.getSize()-1 >= quarter.getChunk().xPosition && this.getChunk().xPosition < quarter.getChunk().xPosition+quarter.getSize()
 				&& this.getChunk().zPosition+this.getSize()-1 >= quarter.getChunk().zPosition && this.getChunk().zPosition < quarter.getChunk().zPosition+quarter.getSize();
@@ -98,15 +69,15 @@ public abstract class AbstractQuarter {
 		return "[("+ffChunk.xPosition+","+ffChunk.zPosition+"),("+(ffChunk.xPosition+getSize())+","+(ffChunk.zPosition+getSize())+")]";
 	}
 	
-	public boolean isQuarterBlock(World w, int x, int y, int z){
-		return this.ffChunk.dimensionID == w.provider.dimensionId && this.x == x && this.y == y && this.z == z;
+	public boolean isTheBlock(int dim, int x, int y, int z){
+		return this.ffChunk.dimensionID == dim && this.x == x && this.y == y && this.z == z;
 	}
 	
 	public void onUnclaims() {
 		TerritoryIndex.getIndex().remove(this);
 	}
 	
-	public boolean isAdjacent(AbstractQuarter quarter) {
+	public boolean isAdjacent(IQuarter quarter) {
 		boolean adjacent = false;
 		for(int x = this.getChunk().xPosition; !adjacent && x<this.getChunk().xPosition+this.getSize(); x++) {
 			if(quarter.contains(this.getChunk().dimensionID, x, this.getChunk().zPosition-1) || quarter.contains(this.getChunk().dimensionID, x, this.getChunk().zPosition+this.getSize())) {

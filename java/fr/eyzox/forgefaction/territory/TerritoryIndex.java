@@ -9,31 +9,29 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
-import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
-import net.minecraft.world.chunk.Chunk;
 
 public class TerritoryIndex implements TerritoryAccess{
 
 	private final static TerritoryIndex INSTANCE = new TerritoryIndex();
 	public static TerritoryIndex getIndex() { return INSTANCE;}
 	
-	private Map<ForgeFactionChunk, AbstractQuarter> index = new HashMap<ForgeFactionChunk, AbstractQuarter>();
+	private Map<ForgeFactionChunk, IQuarter> index = new HashMap<ForgeFactionChunk, IQuarter>();
 	
 	private TerritoryIndex() {}
 	
-	public void add(AbstractQuarter quarter) {
+	public void add(IQuarter quarter) {
 		for(ForgeFactionChunk chunk : quarter.getAllChunks()) {
 			this.add(quarter, chunk);
 		}
 	}
 	
-	public void remove(AbstractQuarter quarter) {
+	public void remove(IQuarter quarter) {
 		for(ForgeFactionChunk chunk : quarter.getAllChunks()) {
 			this.remove(chunk);
 		}
 	}
 	
-	public void add(AbstractQuarter quarter, ForgeFactionChunk c) {
+	public void add(IQuarter quarter, ForgeFactionChunk c) {
 		this.index.put(c, quarter);
 	}
 	
@@ -41,13 +39,13 @@ public class TerritoryIndex implements TerritoryAccess{
 		index.remove(c);
 	}
 	
-	public AbstractQuarter getAbstractQuarter(ForgeFactionChunk c) {
+	public IQuarter getIQuarter(ForgeFactionChunk c) {
 		return index.get(c);
 	}
 	
-	public Collection<AbstractQuarter> checkConflicts(AbstractQuarter quarter) {
-		List<AbstractQuarter> conflicts = new ArrayList<AbstractQuarter>();
-		for(AbstractQuarter loadedQuarter : getLoadedAbstractQuarters()) {
+	public Collection<IQuarter> checkConflicts(IQuarter quarter) {
+		List<IQuarter> conflicts = new ArrayList<IQuarter>();
+		for(IQuarter loadedQuarter : getLoadedAbstractQuarters()) {
 			if(quarter.contains(loadedQuarter)) {
 				conflicts.add(loadedQuarter);
 			}
@@ -55,7 +53,7 @@ public class TerritoryIndex implements TerritoryAccess{
 		return conflicts;
 	}
 	
-	public Set<AbstractQuarter> getLoadedAbstractQuarters() {
-		return new HashSet<AbstractQuarter>(index.values());
+	public Set<IQuarter> getLoadedAbstractQuarters() {
+		return new HashSet<IQuarter>(index.values());
 	}
 }

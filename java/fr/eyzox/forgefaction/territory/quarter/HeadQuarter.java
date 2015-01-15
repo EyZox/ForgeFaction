@@ -7,41 +7,35 @@ import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
 import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.territory.IParentMultipleQuarters;
+import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
 
-public class HeadQuarter extends AbstractQuarter {
+public class HeadQuarter extends AbstractQuarter implements IParentMultipleQuarters<QuarterBase>{
 
-	private List<Quarter> quarters = new ArrayList<Quarter>();
+	private List<QuarterBase> quarters = new ArrayList<QuarterBase>();
 	private Faction team;
 	
 	public HeadQuarter(World w, int x, int y, int z) {super(w,x,y,z);}
 	public HeadQuarter(int dim, int x, int y, int z) {super(dim, x, y, z);}
 	public HeadQuarter(NBTTagCompound tag) {super(tag);}
 
-	@Override
-	public int getSize() {
-		return 6;
-	}
 	
-	@Override
-	public Faction getFaction() {
-		return team;
-	}
 	public void setFaction(Faction team) {
 		this.team = team;
 	}
+
 	@Override
 	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
 		if(!quarters.isEmpty()) {
 			NBTTagList quarterList = new NBTTagList();
-			for(Quarter quarter : quarters) {
+			for(QuarterBase quarter : quarters) {
 				NBTTagCompound quarterTag = new NBTTagCompound();
 				quarter.writeToNBT(quarterTag);
 				quarterList.appendTag(quarterTag);
@@ -55,22 +49,41 @@ public class HeadQuarter extends AbstractQuarter {
 		NBTTagList quarterList = (NBTTagList) tag.getTag("quarters");
 		if(quarterList != null) {
 			for(int i=0; i<quarterList.tagCount(); i++) {
-				Quarter q = new Quarter(quarterList.getCompoundTagAt(i));
+				QuarterBase q = new QuarterBase(quarterList.getCompoundTagAt(i));
 				q.setParent(this);
 				quarters.add(q);
 			}
 		}
 	}
 	
-	public Collection<Quarter> getQuarters() {
-		return quarters;
+	@Override
+	public String getName() {
+		return "Headquarter";
 	}
 	
-	public void claims(Quarter quarter, TerritoryAccess access) throws NoAdjacentChunkException, AlreadyClaimedException {
-		
+	@Override
+	public Faction getFaction() {
+		return team;
+	}
+	
+	@Override
+	public int getSize() {
+		return 6;
+	}
+	
+	@Override
+	public void onUnclaims() {
+		super.onUnclaims();
+		for(QuarterBase quarter : quarters) {
+			quarter.onUnclaims();
+		}
+	}
+	
+	@Override
+	public void claims(QuarterBase quarter, TerritoryAccess access) throws NoAdjacentChunkException, AlreadyClaimedException {
 		if(!isAdjacent(quarter)) throw new NoAdjacentChunkException(this, quarter);
 		
-		Collection<AbstractQuarter> conflicts = access.checkConflicts(quarter);
+		Collection<IQuarter> conflicts = access.checkConflicts(quarter);
 		if(conflicts.isEmpty()) throw new AlreadyClaimedException(conflicts, quarter);
 		
 		quarters.add(quarter);
@@ -78,22 +91,17 @@ public class HeadQuarter extends AbstractQuarter {
 		TerritoryIndex.getIndex().add(quarter);
 	}
 	
-	public void unclaims(Quarter quarter) {
+	@Override
+	public Collection<QuarterBase> getChilds() {
+		return quarters;
+	}
+	
+	@Override
+	public void unclaims(QuarterBase quarter) {
 		if(quarters.remove(quarter)) {
 			ForgeFactionData.getData().markDirty();
 			quarter.onUnclaims();
 		}
-	}
-	@Override
-	public void onUnclaims() {
-		super.onUnclaims();
-		for(Quarter quarter : quarters) {
-			quarter.onUnclaims();
-		}
-	}
-	@Override
-	public String getName() {
-		return "Headquarter";
 	}
 
 }
