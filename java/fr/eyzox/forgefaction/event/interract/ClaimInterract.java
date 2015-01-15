@@ -21,7 +21,7 @@ public class ClaimInterract implements InterractStrategy {
 	private boolean quit;
 
 	/** Called when player interract
-	 * Assert player has a faction and has permission : @see fr.eyzox.forgefaction.command.Claim 
+	 * Assert player has a faction and has permission : @see fr.eyzox.forgefaction.command.ClaimCommand
 	 */
 	@Override
 	public void onPlayerInterract(PlayerInteractEvent e) {
