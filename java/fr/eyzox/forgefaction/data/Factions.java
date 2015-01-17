@@ -8,10 +8,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
-import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
 import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 

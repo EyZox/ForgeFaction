@@ -3,7 +3,6 @@ package fr.eyzox.forgefaction.territory;
 import fr.eyzox.forgefaction.exception.ForgeFactionException;
 import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.serial.NBTSupported;
-import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 
 public interface IQuarter extends NBTSupported{

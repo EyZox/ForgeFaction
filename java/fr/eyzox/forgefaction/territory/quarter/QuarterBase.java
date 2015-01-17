@@ -10,6 +10,7 @@ import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.exception.AlreadyParentException;
 import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
 import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.IChild;
 import fr.eyzox.forgefaction.territory.IParentQuarter;
 import fr.eyzox.forgefaction.territory.IParentUniqueQuarter;
@@ -28,7 +29,7 @@ public class QuarterBase extends AbstractQuarter implements IParentUniqueQuarter
 	
 	@Override
 	public int getSize() {
-		return 3;
+		return 1;
 	}
 	
 	public IParentQuarter<QuarterBase> getParent() {

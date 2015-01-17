@@ -16,10 +16,10 @@ import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
 import fr.eyzox.forgefaction.serial.NBTSupported;
+import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
-import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
 
 public class Faction implements NBTSupported {

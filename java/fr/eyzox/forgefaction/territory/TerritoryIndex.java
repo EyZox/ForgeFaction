@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
-
 public class TerritoryIndex implements TerritoryAccess{
 
 	private final static TerritoryIndex INSTANCE = new TerritoryIndex();

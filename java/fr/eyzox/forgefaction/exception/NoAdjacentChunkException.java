@@ -1,7 +1,7 @@
 package fr.eyzox.forgefaction.exception;
 
+import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.IParentQuarter;
-import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 
 public class NoAdjacentChunkException extends ForgeFactionException {

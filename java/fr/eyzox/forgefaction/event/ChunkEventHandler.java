@@ -11,10 +11,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fr.eyzox.forgefaction.ForgeFactionMod;
 import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
-import fr.eyzox.forgefaction.territory.quarter.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
 import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 

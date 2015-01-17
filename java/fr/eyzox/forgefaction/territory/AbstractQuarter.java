@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction.territory.quarter;
+package fr.eyzox.forgefaction.territory;
 
 import java.util.Iterator;
 
@@ -15,10 +15,6 @@ import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
 import fr.eyzox.forgefaction.faction.Faction;
 import fr.eyzox.forgefaction.serial.NBTSupported;
 import fr.eyzox.forgefaction.serial.NBTUtils;
-import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
-import fr.eyzox.forgefaction.territory.IQuarter;
-import fr.eyzox.forgefaction.territory.TerritoryAccess;
-import fr.eyzox.forgefaction.territory.TerritoryIndex;
 
 public abstract class AbstractQuarter implements IQuarter{
 	private ForgeFactionChunk ffChunk;

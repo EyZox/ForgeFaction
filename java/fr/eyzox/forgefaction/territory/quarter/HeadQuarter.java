@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraft.client.gui.inventory.GuiChest;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import fr.eyzox.forgefaction.data.ForgeFactionData;
 import fr.eyzox.forgefaction.exception.AlreadyClaimedException;
 import fr.eyzox.forgefaction.exception.NoAdjacentChunkException;
 import fr.eyzox.forgefaction.faction.Faction;
+import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.IParentMultipleQuarters;
 import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
@@ -68,7 +74,7 @@ public class HeadQuarter extends AbstractQuarter implements IParentMultipleQuart
 	
 	@Override
 	public int getSize() {
-		return 6;
+		return 2;
 	}
 	
 	@Override
