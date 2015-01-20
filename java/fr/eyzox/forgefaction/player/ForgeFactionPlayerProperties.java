@@ -19,6 +19,10 @@ public class ForgeFactionPlayerProperties implements IExtendedEntityProperties {
 	private EntityPlayer player;
 	
 	private Faction faction;
+	
+	//TODO : Quand un joueur claims/unclaims un chunk tout les joueurs de la faction concernée étant en mode view reçoivent un paquet d'update
+	private boolean viewTerritory;
+	
 	private InterractStrategy interractStrategy;
 
 	public ForgeFactionPlayerProperties() {}
@@ -75,4 +79,11 @@ public class ForgeFactionPlayerProperties implements IExtendedEntityProperties {
 			}
 		}
 	}
+	public boolean isViewTerritory() {
+		return viewTerritory;
+	}
+	public void setViewTerritory(boolean viewTerritory) {
+		this.viewTerritory = viewTerritory;
+	}
+	
 }
