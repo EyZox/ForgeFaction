@@ -9,6 +9,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import fr.eyzox.forgefaction.event.TerritoryChunkViewer;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 
 public class TerritoryChunkPacket implements IMessage {
@@ -79,7 +82,7 @@ public class TerritoryChunkPacket implements IMessage {
 			t.setTag("toAdd", tagList);
 		}
 		
-		if(toRemove != null & !toRemove.isEmpty()) {
+		if(toRemove != null && !toRemove.isEmpty()) {
 			NBTTagList tagList = new NBTTagList();
 			for(ForgeFactionChunk ffchunk : toRemove) {
 				NBTTagCompound ffchunkTag = new NBTTagCompound();
@@ -91,6 +94,16 @@ public class TerritoryChunkPacket implements IMessage {
 		
 		ByteBufUtils.writeTag(buf, t);
 
+	}
+	
+	public static class TerritoryChunkPaquetHandler implements IMessageHandler<TerritoryChunkPacket, IMessage> {
+
+		@Override
+		public IMessage onMessage(TerritoryChunkPacket message, MessageContext ctx) {
+			TerritoryChunkViewer.getInstance().process(message);
+			return null;
+		}
+		
 	}
 
 }

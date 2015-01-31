@@ -9,6 +9,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 import fr.eyzox.forgefaction.block.ModBlocks;
 import fr.eyzox.forgefaction.command.ClaimCommand;
 import fr.eyzox.forgefaction.command.CreateFactionCommand;
@@ -16,6 +17,7 @@ import fr.eyzox.forgefaction.command.InvitePlayerCommand;
 import fr.eyzox.forgefaction.command.KickPlayerCommand;
 import fr.eyzox.forgefaction.command.LeaveFactionCommand;
 import fr.eyzox.forgefaction.command.ViewTerritoryCommand;
+import fr.eyzox.forgefaction.network.TerritoryChunkPacket;
 import fr.eyzox.forgefaction.proxy.CommonProxy;
 
 @Mod(modid = ForgeFactionMod.MODID, version = ForgeFactionMod.VERSION)
@@ -36,8 +38,7 @@ public class ForgeFactionMod
 	private final SimpleNetworkWrapper channel = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 
 	private void registerChannel() {
-		//channel.registerMessage(MigrantPacket.MigrantPacketHandler.class, MigrantPacket.class,0, Side.SERVER);
-		//channel.registerMessage(OpenGUIMigrantPacket.OpenGUIMigrantHandler.class, OpenGUIMigrantPacket.class, 1, Side.CLIENT);
+		channel.registerMessage(TerritoryChunkPacket.TerritoryChunkPaquetHandler.class, TerritoryChunkPacket.class,0, Side.CLIENT);
 	}
 
 	private void registerCommand() {
