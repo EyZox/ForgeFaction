@@ -70,8 +70,12 @@ public class ForgeFactionChunk implements NBTSupported{
 				+ xPosition + ", zPosition=" + zPosition + "]";
 	}
 	
-	public static final int getChunkPosition(int blockPosition) {
-		return (blockPosition >> 4);
+	public static final int getChunkCoordinate(int blockCoordinate) {
+		return blockCoordinate >> 4;
+	}
+	
+	public static final int getBlockCoordinate(int chunkCoordinate) {
+		return chunkCoordinate << 4;
 	}
 	
 	

@@ -45,7 +45,7 @@ public class ClaimInterract implements InterractStrategy {
 				ForgeFactionPlayerProperties playerProperties = ForgeFactionPlayerProperties.get(e.entityPlayer);
 				//step 1 : select a source
 				if(from == null) {
-					IQuarter unverifiedFrom = TerritoryIndex.getIndex().getIQuarter(new ForgeFactionChunk(e.world.provider.dimensionId, ForgeFactionChunk.getChunkPosition(e.x), ForgeFactionChunk.getChunkPosition(e.z)));
+					IQuarter unverifiedFrom = TerritoryIndex.getIndex().getIQuarter(new ForgeFactionChunk(e.world.provider.dimensionId, ForgeFactionChunk.getChunkCoordinate(e.x), ForgeFactionChunk.getChunkCoordinate(e.z)));
 					//If unverifiedFrom == null : zone is wilderness
 					if(unverifiedFrom == null) {
 						if(abstractQuarterBlock instanceof HeadquarterBlock) {

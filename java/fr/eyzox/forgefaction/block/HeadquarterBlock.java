@@ -26,7 +26,7 @@ public class HeadquarterBlock extends ModBlock implements AbstractQuarterBlock{
 	@SuppressWarnings("unused")
 	@Override
 	public GUIQuarter getGUI(World w, int x, int y, int z) {
-		IQuarter quarter = TerritoryIndex.getIndex().getIQuarter(new ForgeFactionChunk(w.provider.dimensionId, ForgeFactionChunk.getChunkPosition(x), ForgeFactionChunk.getChunkPosition(z)));
+		IQuarter quarter = TerritoryIndex.getIndex().getIQuarter(new ForgeFactionChunk(w.provider.dimensionId, ForgeFactionChunk.getChunkCoordinate(x), ForgeFactionChunk.getChunkCoordinate(z)));
 		if(quarter instanceof Headquarter) {
 			if(quarter != null) {
 				return null;
