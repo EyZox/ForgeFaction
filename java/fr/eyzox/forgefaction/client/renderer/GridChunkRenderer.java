@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction.renderer;
+package fr.eyzox.forgefaction.client.renderer;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,10 +8,10 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import org.lwjgl.opengl.GL11;
 
-import fr.eyzox.forgefaction.renderer.filter.FaceFilter;
+import fr.eyzox.forgefaction.client.renderer.filter.FaceFilter;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 
-public class GridChunkRenderer implements IChunkRenderer {
+public class GridChunkRenderer implements IRenderer<ForgeFactionChunk> {
 	
 	@Override
 	public void render(ForgeFactionChunk c, FaceFilter f) {

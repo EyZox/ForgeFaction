@@ -12,7 +12,7 @@ import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 import fr.eyzox.forgefaction.territory.IParentQuarter;
 import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
-import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
+import fr.eyzox.forgefaction.territory.quarter.Headquarter;
 import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 
 public class ClaimInterract implements InterractStrategy {
@@ -49,11 +49,11 @@ public class ClaimInterract implements InterractStrategy {
 					//If unverifiedFrom == null : zone is wilderness
 					if(unverifiedFrom == null) {
 						if(abstractQuarterBlock instanceof HeadquarterBlock) {
-							HeadQuarter hq = (HeadQuarter) abstractQuarterBlock.createAbstractQuarter(e.world, e.x, e.y, e.z);
+							Headquarter hq = (Headquarter) abstractQuarterBlock.createAbstractQuarter(e.world, e.x, e.y, e.z);
 							try {
 								playerProperties.getFaction().claims(hq, TerritoryIndex.getIndex());
 								playerProperties.setInterractStrategy(null);
-								playerProperties.getFaction().sendMessage(new ChatComponentText(e.entityPlayer.getDisplayName()+" has claimed new territory "+hq.printCoordinates()));
+								playerProperties.getFaction().sendMessage(new ChatComponentText(e.entityPlayer.getDisplayName()+" has claimed new territory "+hq.toString()));
 							} catch (ForgeFactionException e1) {
 								e1.printStackTrace();
 								e.entityPlayer.addChatComponentMessage(new ChatComponentText(e1.getMessage()));
@@ -70,7 +70,7 @@ public class ClaimInterract implements InterractStrategy {
 						this.from = (IParentQuarter) unverifiedFrom;
 						if(from.getFaction() == playerProperties.getFaction() && from.isTheBlock(e.world.provider.dimensionId, e.x, e.y, e.z)) {
 							//Here the player selected a valid AbstractQuarterBlock claimed by his faction
-							e.entityPlayer.addChatComponentMessage(new ChatComponentText("You've selected "+this.from.printCoordinates()+" as source. Now select the new territory you want claim or right click on this block again to choose an other source"));
+							e.entityPlayer.addChatComponentMessage(new ChatComponentText("You've selected "+this.from.toString()+" as source. Now select the new territory you want claim or right click on this block again to choose an other source"));
 						}else {
 							this.from = null;
 						}
@@ -88,7 +88,7 @@ public class ClaimInterract implements InterractStrategy {
 						QuarterBase newTerritory = (QuarterBase) abstractQuarterBlock.createAbstractQuarter(e.world, e.x, e.y, e.z);
 						try {
 							from.claims(newTerritory, TerritoryIndex.getIndex());
-							playerProperties.getFaction().sendMessage(new ChatComponentText(e.entityPlayer.getDisplayName()+" has claimed new territory "+newTerritory.printCoordinates()));
+							playerProperties.getFaction().sendMessage(new ChatComponentText(e.entityPlayer.getDisplayName()+" has claimed new territory "+newTerritory.toString()));
 						} catch (ForgeFactionException e1) {
 							e1.printStackTrace();
 							e.entityPlayer.addChatComponentMessage(new ChatComponentText(e1.getMessage()));

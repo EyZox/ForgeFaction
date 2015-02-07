@@ -3,6 +3,7 @@ package fr.eyzox.forgefaction.territory;
 import java.util.Iterator;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.DimensionManager;
@@ -17,7 +18,7 @@ import fr.eyzox.forgefaction.serial.NBTSupported;
 import fr.eyzox.forgefaction.serial.NBTUtils;
 
 public abstract class AbstractQuarter implements IQuarter{
-	private ForgeFactionChunk ffChunk;
+	protected ForgeFactionChunk from;
 	protected int x,y,z;
 	
 	public AbstractQuarter() {}
@@ -28,45 +29,51 @@ public abstract class AbstractQuarter implements IQuarter{
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.ffChunk = new ForgeFactionChunk(dim, x >> 4, z >> 4);
 	}
 	public AbstractQuarter(NBTTagCompound tag) {
 		this.readFromNBT(tag);
 	}
 	
+	public boolean contains(ForgeFactionChunk chunk) {
+		return contains(chunk.dimensionID, chunk.xPosition, chunk.zPosition);
+	}
+	
 	public boolean contains(int dimensionID, int xPosition, int zPosition) {
-		return this.getChunk().dimensionID == dimensionID && (xPosition >= this.ffChunk.xPosition && xPosition < this.ffChunk.xPosition+getSize()) && (zPosition >= this.ffChunk.zPosition && zPosition < this.ffChunk.zPosition+getSize());
+		return this.getFrom().dimensionID == dimensionID
+				&& (xPosition >= this.from.xPosition && xPosition < this.from.xPosition+getXSize())
+				&& (zPosition >= this.from.zPosition && zPosition < this.from.zPosition+getZSize());
 	}
 	
 	public boolean contains(IQuarter quarter) {
-		return this.getChunk().dimensionID == quarter.getChunk().dimensionID
-				&& this.getChunk().xPosition+this.getSize()-1 >= quarter.getChunk().xPosition && this.getChunk().xPosition < quarter.getChunk().xPosition+quarter.getSize()
-				&& this.getChunk().zPosition+this.getSize()-1 >= quarter.getChunk().zPosition && this.getChunk().zPosition < quarter.getChunk().zPosition+quarter.getSize();
+		return this.getFrom().dimensionID == quarter.getFrom().dimensionID
+				&& this.getFrom().xPosition+this.getXSize()-1 >= quarter.getFrom().xPosition && this.getFrom().xPosition < quarter.getFrom().xPosition+quarter.getXSize()
+				&& this.getFrom().zPosition+this.getZSize()-1 >= quarter.getFrom().zPosition && this.getFrom().zPosition < quarter.getFrom().zPosition+quarter.getZSize();
 	}
 	
-	public ForgeFactionChunk getChunk() {
-		return ffChunk;
+	public ForgeFactionChunk getFrom() {
+		return from;
 	}
 
 	public void writeToNBT(NBTTagCompound tag) {
-		ffChunk.writeToNBT(tag);
+		from.writeToNBT(tag);
 		tag.setIntArray("block", new int[] {x,y,z});
 	}
 
 	public void readFromNBT(NBTTagCompound tag) {
-		this.ffChunk = new ForgeFactionChunk(tag);
+		this.from = new ForgeFactionChunk(tag);
 		int[] t = tag.getIntArray("block");
 		this.x = t[0];
 		this.y = t[1];
 		this.z = t[2];
 	}
 	
-	public String printCoordinates() {
-		return "[("+ffChunk.xPosition+","+ffChunk.zPosition+"),("+(ffChunk.xPosition+getSize())+","+(ffChunk.zPosition+getSize())+")]";
+	@Override
+	public String toString() {
+		return getName()+" : [("+from.xPosition+","+from.zPosition+"),("+(from.xPosition+getXSize()-1)+","+(from.zPosition+getZSize()-1)+")]";
 	}
 	
 	public boolean isTheBlock(int dim, int x, int y, int z){
-		return this.ffChunk.dimensionID == dim && this.x == x && this.y == y && this.z == z;
+		return this.from.dimensionID == dim && this.x == x && this.y == y && this.z == z;
 	}
 	
 	public void onUnclaims() {
@@ -74,34 +81,33 @@ public abstract class AbstractQuarter implements IQuarter{
 	}
 	
 	public boolean isAdjacent(IQuarter quarter) {
-		boolean adjacent = false;
-		for(int x = this.getChunk().xPosition; !adjacent && x<this.getChunk().xPosition+this.getSize(); x++) {
-			if(quarter.contains(this.getChunk().dimensionID, x, this.getChunk().zPosition-1) || quarter.contains(this.getChunk().dimensionID, x, this.getChunk().zPosition+this.getSize())) {
-				adjacent = true;
+		for(int x = this.getFrom().xPosition; x<this.getFrom().xPosition+this.getXSize(); x++) {
+			if(quarter.contains(this.getFrom().dimensionID, x, this.getFrom().zPosition-1) || quarter.contains(this.getFrom().dimensionID, x, this.getFrom().zPosition+this.getZSize())) {
+				return true;
 			}
 		}
-		for(int z = this.getChunk().zPosition; !adjacent && z<this.getChunk().zPosition+this.getSize(); z++) {
-			if(quarter.contains(this.getChunk().dimensionID, this.getChunk().xPosition-1,z) || quarter.contains(this.getChunk().dimensionID, this.getChunk().xPosition+this.getSize(),z)) {
-				adjacent = true;
+		for(int z = this.getFrom().zPosition; z<this.getFrom().zPosition+this.getZSize(); z++) {
+			if(quarter.contains(this.getFrom().dimensionID, this.getFrom().xPosition-1,z) || quarter.contains(this.getFrom().dimensionID, this.getFrom().xPosition+this.getXSize(),z)) {
+				return true;
 			}
 		}
-		return adjacent;
+		return false;
 	}
 	
 	public Iterator<ForgeFactionChunk> getChunkIterator() {
 		return new Iterator<ForgeFactionChunk>() {
-			int x = ffChunk.xPosition, z = ffChunk.zPosition;
+			int x = from.xPosition, z = from.zPosition;
 			@Override
 			public boolean hasNext() {
-				return z < ffChunk.zPosition+getSize() && x<ffChunk.xPosition+getSize();
+				return z < from.zPosition+getZSize() && x<from.xPosition+getXSize();
 			}
 
 			@Override
 			public ForgeFactionChunk next() {
-				ForgeFactionChunk c = new ForgeFactionChunk(ffChunk.dimensionID, x,z);
+				ForgeFactionChunk c = new ForgeFactionChunk(from.dimensionID, x,z);
 				x++;
-				if(x >= ffChunk.xPosition+getSize()) {
-					x = ffChunk.xPosition;
+				if(x >= from.xPosition+getXSize()) {
+					x = from.xPosition;
 					z++;
 				}
 				return c;
@@ -109,7 +115,7 @@ public abstract class AbstractQuarter implements IQuarter{
 
 			@Override
 			public void remove() {
-				new IllegalAccessError("READ-ONLY iterator").printStackTrace();
+				new RuntimeException("READ-ONLY iterator").printStackTrace();
 			}
 		};
 	}
@@ -123,5 +129,12 @@ public abstract class AbstractQuarter implements IQuarter{
 			}
 		};
 	}
+	
+	@Override
+	public final String getName() {
+		return StatCollector.translateToLocal("quarter."+getUnlocalizedName());
+	}
+	
+	public abstract String getUnlocalizedName();
 	
 }

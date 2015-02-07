@@ -11,11 +11,11 @@ import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import fr.eyzox.forgefaction.client.renderer.GridChunkRenderer;
+import fr.eyzox.forgefaction.client.renderer.IRenderer;
+import fr.eyzox.forgefaction.client.renderer.filter.FaceFilter;
+import fr.eyzox.forgefaction.client.renderer.filter.TerritoryFaceFilter;
 import fr.eyzox.forgefaction.network.TerritoryChunkPacket;
-import fr.eyzox.forgefaction.renderer.GridChunkRenderer;
-import fr.eyzox.forgefaction.renderer.IChunkRenderer;
-import fr.eyzox.forgefaction.renderer.filter.FaceFilter;
-import fr.eyzox.forgefaction.renderer.filter.TerritoryFaceFilter;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 
 @SideOnly(Side.CLIENT)
@@ -28,7 +28,7 @@ public class TerritoryChunkViewer implements IEvent {
 
 	
 	private TerritoryFaceFilter filter = new TerritoryFaceFilter();
-	private IChunkRenderer chunkRenderer = new GridChunkRenderer();
+	private IRenderer<ForgeFactionChunk> chunkRenderer = new GridChunkRenderer();
 	
 	private boolean enabled;
 

@@ -1,9 +1,9 @@
-package fr.eyzox.forgefaction.renderer.filter;
+package fr.eyzox.forgefaction.client.renderer.filter;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import fr.eyzox.forgefaction.renderer.filter.FaceFilter.Face;
+import fr.eyzox.forgefaction.client.renderer.filter.FaceFilter.Face;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 
 public class TerritoryFaceFilter implements FaceFilter {

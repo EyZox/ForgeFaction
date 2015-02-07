@@ -12,7 +12,7 @@ import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
-import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
+import fr.eyzox.forgefaction.territory.quarter.Headquarter;
 import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 
 public class Factions implements TerritoryAccess{
@@ -61,7 +61,7 @@ public class Factions implements TerritoryAccess{
 	@Override
 	public IQuarter getIQuarter(ForgeFactionChunk c) {
 		for(Faction faction : factionSet) {
-			for(HeadQuarter hq : faction.getHeadquarters()) {
+			for(Headquarter hq : faction.getHeadquarters()) {
 				if(hq.contains(c.dimensionID, c.xPosition, c.zPosition)) return hq;
 				for(QuarterBase quarter: hq.getChilds()) {
 					do {
@@ -78,7 +78,7 @@ public class Factions implements TerritoryAccess{
 	public Collection<IQuarter> checkConflicts(IQuarter quarterToCheck) {
 		List<IQuarter> conflicts = new ArrayList<IQuarter>();
 		for(Faction faction : factionSet) {
-			for(HeadQuarter hq : faction.getHeadquarters()) {
+			for(Headquarter hq : faction.getHeadquarters()) {
 				if(hq.contains(quarterToCheck)) conflicts.add(hq);
 				for(QuarterBase quarter: hq.getChilds()) {
 					do {

@@ -28,8 +28,13 @@ public class QuarterBase extends AbstractQuarter implements IParentUniqueQuarter
 	public QuarterBase(NBTTagCompound tag) {super(tag);}
 	
 	@Override
-	public int getSize() {
+	public int getXSize() {
 		return 1;
+	}
+	
+	@Override
+	public int getZSize() {
+		return getXSize();
 	}
 	
 	public IParentQuarter<QuarterBase> getParent() {
@@ -84,10 +89,7 @@ public class QuarterBase extends AbstractQuarter implements IParentUniqueQuarter
 		if(this.child != null) this.child.onUnclaims();
 		
 	}
-	@Override
-	public String getName() {
-		return "quarter";
-	}
+
 	@Override
 	public void unclaimsChild() {
 		if(child != null) {
@@ -95,6 +97,11 @@ public class QuarterBase extends AbstractQuarter implements IParentUniqueQuarter
 			this.child = null;
 			ForgeFactionData.getData().markDirty();
 		}
+	}
+	
+	@Override
+	public String getUnlocalizedName() {
+		return "quarterbase";
 	}
 
 }

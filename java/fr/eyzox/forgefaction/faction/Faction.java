@@ -20,7 +20,7 @@ import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
-import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
+import fr.eyzox.forgefaction.territory.quarter.Headquarter;
 
 public class Faction implements NBTSupported {
 
@@ -29,14 +29,14 @@ public class Faction implements NBTSupported {
 	private Set<UUID> players;
 	 */
 	private Set<String> players;
-	private List<HeadQuarter> headquarters;
+	private List<Headquarter> headquarters;
 
 	public Faction() {
 		/* Maybe when UUID will become an identifier
 		players = new HashSet<UUID>();
 		 */
 		players = new HashSet<String>();
-		headquarters = new ArrayList<HeadQuarter>();
+		headquarters = new ArrayList<Headquarter>();
 	}
 	public Faction(String name) {
 		this();
@@ -65,7 +65,7 @@ public class Faction implements NBTSupported {
 		tag.setTag("players", playerList);
 
 		NBTTagList headquarterList = new NBTTagList();
-		for(HeadQuarter headquarter : headquarters) {
+		for(Headquarter headquarter : headquarters) {
 			NBTTagCompound headquarterTag = new NBTTagCompound();
 			headquarter.writeToNBT(headquarterTag);
 			headquarterList.appendTag(headquarterTag);
@@ -87,7 +87,7 @@ public class Faction implements NBTSupported {
 
 		tagList = (NBTTagList) tag.getTag("headquarters");
 		for(int i=0; i<tagList.tagCount(); i++) {
-			HeadQuarter hq = new HeadQuarter(tagList.getCompoundTagAt(i));
+			Headquarter hq = new Headquarter(tagList.getCompoundTagAt(i));
 			hq.setFaction(this);
 			headquarters.add(hq);
 		}
@@ -106,7 +106,7 @@ public class Faction implements NBTSupported {
 		return true;
 	}
 
-	public Collection<HeadQuarter> getHeadquarters() {
+	public Collection<Headquarter> getHeadquarters() {
 		return headquarters;
 	}
 
@@ -151,11 +151,11 @@ public class Faction implements NBTSupported {
 		return players.size();
 	}
 	
-	public void claims(HeadQuarter quarter) throws AlreadyClaimedException {
+	public void claims(Headquarter quarter) throws AlreadyClaimedException {
 		this.claims(quarter, ForgeFactionData.getData().getFactions());
 	}
 
-	public void claims(HeadQuarter quarter, TerritoryAccess access) throws AlreadyClaimedException {
+	public void claims(Headquarter quarter, TerritoryAccess access) throws AlreadyClaimedException {
 			Collection<IQuarter> conflicts = access.checkConflicts(quarter);
 			if(!conflicts.isEmpty()) throw new AlreadyClaimedException(conflicts, quarter);
 			
@@ -166,7 +166,7 @@ public class Faction implements NBTSupported {
 				
 	}
 
-	public void unclaims(HeadQuarter headquarter) {
+	public void unclaims(Headquarter headquarter) {
 		if(this.headquarters.remove(headquarter)) {
 			headquarter.onUnclaims();
 			ForgeFactionData.getData().markDirty();

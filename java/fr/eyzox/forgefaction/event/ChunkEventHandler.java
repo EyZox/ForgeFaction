@@ -15,7 +15,7 @@ import fr.eyzox.forgefaction.territory.AbstractQuarter;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
-import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
+import fr.eyzox.forgefaction.territory.quarter.Headquarter;
 import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 
 public class ChunkEventHandler implements IEvent {
@@ -29,7 +29,7 @@ public class ChunkEventHandler implements IEvent {
 	public void onChunkLoad(ChunkEvent.Load event) {
 		if(!event.world.isRemote && MinecraftServer.getServer().worldServers.length > 0) {
 			for(Faction faction : ForgeFactionData.getData().getFactions().getFactions()) {
-				for(HeadQuarter hq : faction.getHeadquarters()) {
+				for(Headquarter hq : faction.getHeadquarters()) {
 					if(hq.contains(event.getChunk().worldObj.provider.dimensionId, event.getChunk().xPosition, event.getChunk().zPosition)) {
 						TerritoryIndex.getIndex().add(hq, new ForgeFactionChunk(event.getChunk()));
 						return;

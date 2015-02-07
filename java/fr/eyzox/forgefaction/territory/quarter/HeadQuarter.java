@@ -22,14 +22,19 @@ import fr.eyzox.forgefaction.territory.IQuarter;
 import fr.eyzox.forgefaction.territory.TerritoryAccess;
 import fr.eyzox.forgefaction.territory.TerritoryIndex;
 
-public class HeadQuarter extends AbstractQuarter implements IParentMultipleQuarters<QuarterBase>{
+public class Headquarter extends AbstractQuarter implements IParentMultipleQuarters<QuarterBase>{
+
+	@Override
+	public String getUnlocalizedName() {
+		return "headquarter";
+	}
 
 	private List<QuarterBase> quarters = new ArrayList<QuarterBase>();
 	private Faction team;
 	
-	public HeadQuarter(World w, int x, int y, int z) {super(w,x,y,z);}
-	public HeadQuarter(int dim, int x, int y, int z) {super(dim, x, y, z);}
-	public HeadQuarter(NBTTagCompound tag) {super(tag);}
+	public Headquarter(World w, int x, int y, int z) {super(w,x,y,z);}
+	public Headquarter(int dim, int x, int y, int z) {super(dim, x, y, z);}
+	public Headquarter(NBTTagCompound tag) {super(tag);}
 
 	
 	public void setFaction(Faction team) {
@@ -63,18 +68,18 @@ public class HeadQuarter extends AbstractQuarter implements IParentMultipleQuart
 	}
 	
 	@Override
-	public String getName() {
-		return "Headquarter";
-	}
-	
-	@Override
 	public Faction getFaction() {
 		return team;
 	}
 	
 	@Override
-	public int getSize() {
+	public int getXSize() {
 		return 2;
+	}
+	
+	@Override
+	public int getZSize() {
+		return getXSize();
 	}
 	
 	@Override

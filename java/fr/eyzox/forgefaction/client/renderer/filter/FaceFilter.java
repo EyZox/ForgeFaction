@@ -1,4 +1,4 @@
-package fr.eyzox.forgefaction.renderer.filter;
+package fr.eyzox.forgefaction.client.renderer.filter;
 
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
 

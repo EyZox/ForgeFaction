@@ -8,7 +8,7 @@ import fr.eyzox.forgefaction.event.interract.ClaimInterract;
 import fr.eyzox.forgefaction.network.TerritoryChunkPacket;
 import fr.eyzox.forgefaction.player.ForgeFactionPlayerProperties;
 import fr.eyzox.forgefaction.territory.ForgeFactionChunk;
-import fr.eyzox.forgefaction.territory.quarter.HeadQuarter;
+import fr.eyzox.forgefaction.territory.quarter.Headquarter;
 import fr.eyzox.forgefaction.territory.quarter.QuarterBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,7 +56,7 @@ public class ViewTerritoryCommand extends ForgeFactionCommand {
 		}
 		
 		Set<ForgeFactionChunk> chunks = new HashSet<ForgeFactionChunk>();
-		for(HeadQuarter hq : playerProperties.getFaction().getHeadquarters()) {
+		for(Headquarter hq : playerProperties.getFaction().getHeadquarters()) {
 			for(ForgeFactionChunk chunk : hq.getAllChunks()) {
 				chunks.add(chunk);
 			}
